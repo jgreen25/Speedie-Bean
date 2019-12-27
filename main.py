@@ -56,16 +56,13 @@ def conversation_processor():
         query.add_filter('number', '=', number)
         orders = list(query.fetch())
         if len(orders) > 5:
-            for i in range(len(orders)):
+            min_time_stamp = datetime.datetime(int(orders[0]['year']), int(orders[0]['month']), int(orders[0]['day']), int(orders[0]['hour']), int(orders[0]['minute']))
+            for i in range(1, len(orders)):
                 time_stamp = datetime.datetime(int(orders[i]['year']), int(orders[i]['month']), int(orders[i]['day']), int(orders[i]['hour']), int(orders[i]['minute']))
-                if i == 0:
+                if time_stamp < min_time_stamp:
                     min_time_stamp = time_stamp
-                    minimum = 0
-                else:
-                    if time_stamp < min_time_stamp:
-                        min_time_stamp = time_stamp
-                        minimum = i
-            old_order = orders[i]
+                    minimum = i
+            old_order = orders[minimum]
             orders = orders[:i] + orders[(i + 1):]
             client.delete(old_order.key)
         if ((message_body.lower() == "coffee") or (
