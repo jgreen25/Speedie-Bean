@@ -234,7 +234,7 @@ def conversation_processor():
                 to=cred.get_common_number()
             )
             print(message.sid)
-            resp.message("Thank you for your order! We'll bring your coffee at %s. You will be contacted by the delivery team for updates.\nhttps://www.youtube.com/watch?v=Wa2WOZuBhrI\n\nText COFFEE at any time to place another order." % updated_order['time'])
+            resp.message("Thank you for your order! We'll bring your coffee at %s. You will be contacted by the delivery team for updates.\nhttps://tulane.co1.qualtrics.com/jfe/form/SV_1Y3KPGKY2UYo3ul\n\nText COFFEE at any time to place another order." % updated_order['time'])
             client.put(updated_order)
             placed = 'no'
             session['placed'] = placed
@@ -398,7 +398,7 @@ def conversation_processor():
                 to=cred.get_common_number()
             )
             print(message.sid)
-            resp.message("Thank you for your order! We'll bring your coffee at %s. You will be contacted by the delivery team for updates.\nhttps://www.youtube.com/watch?v=Wa2WOZuBhrI\n\nText COFFEE at any time to place another order." % updated_order['time'])
+            resp.message("Thank you for your order! We'll bring your coffee at %s. You will be contacted by the delivery team for updates.\nhttps://tulane.co1.qualtrics.com/jfe/form/SV_1Y3KPGKY2UYo3ul\n\nText COFFEE at any time to place another order." % updated_order['time'])
             client.put(updated_order)
             placed = 'no'
             session['placed'] = placed
@@ -488,7 +488,7 @@ def conversation_processor():
             to=cred.get_common_number()
         )
         print(message.sid)
-        resp.message("Thank you for your order! We'll bring your coffee at %s. You will be contacted by the delivery team for updates.\nhttps://www.youtube.com/watch?v=Wa2WOZuBhrI\n\nText COFFEE at any time to place another order." % updated_order['time'])
+        resp.message("Thank you for your order! We'll bring your coffee at %s. You will be contacted by the delivery team for updates.\nhttps://tulane.co1.qualtrics.com/jfe/form/SV_1Y3KPGKY2UYo3ul\n\nText COFFEE at any time to place another order." % updated_order['time'])
         client.put(updated_order)
         placed = 'no'
         session['placed'] = placed
@@ -685,7 +685,7 @@ def asap():
             previous_slots = int(time_slot['slots'])
             time_slot.update({'slots': previous_slots - 1})
             client.put(time_slot)
-            string = "Thank you for your order! We'll bring your coffee as soon as possible. You will be contacted by the delivery team for updates.\nhttps://www.youtube.com/watch?v=Wa2WOZuBhrI\n\nText COFFEE at any time to place another order."
+            string = "Thank you for your order! We'll bring your coffee as soon as possible. You will be contacted by the delivery team for updates.\nhttps://tulane.co1.qualtrics.com/jfe/form/SV_1Y3KPGKY2UYo3ul\n\nText COFFEE at any time to place another order."
             placed = 'no'
             session['placed'] = placed
             customer = 'new'
@@ -701,7 +701,7 @@ def asap():
             previous_slots = int(time_slot['slots'])
             time_slot.update({'slots': previous_slots - 1})
             client.put(time_slot)
-            string = "Thank you for your order! We'll bring your coffee as soon as possible. You will be contacted by the delivery team for updates.\nhttps://www.youtube.com/watch?v=Wa2WOZuBhrI\n\nText COFFEE at any time to place another order."
+            string = "Thank you for your order! We'll bring your coffee as soon as possible. You will be contacted by the delivery team for updates.\nhttps://tulane.co1.qualtrics.com/jfe/form/SV_1Y3KPGKY2UYo3ul\n\nText COFFEE at any time to place another order."
             placed = 'no'
             session['placed'] = placed
             customer = 'new'
@@ -717,7 +717,7 @@ def asap():
             previous_slots = int(time_slot['slots'])
             time_slot.update({'slots': previous_slots - 1})
             client.put(time_slot)
-            string = "Thank you for your order! We'll bring your coffee as soon as possible. You will be contacted by the delivery team for updates.\nhttps://www.youtube.com/watch?v=Wa2WOZuBhrI\n\nText COFFEE at any time to place another order."
+            string = "Thank you for your order! We'll bring your coffee as soon as possible. You will be contacted by the delivery team for updates.\nhttps://tulane.co1.qualtrics.com/jfe/form/SV_1Y3KPGKY2UYo3ul\n\nText COFFEE at any time to place another order."
             placed = 'no'
             session['placed'] = placed
             customer = 'new'
