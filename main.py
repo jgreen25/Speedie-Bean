@@ -131,11 +131,11 @@ def conversation_processor():
                 else:
                     counter -= 1
                     session['counter'] = counter
-                    resp.message("Please respond with a number 0 through %d" % len(orders))
+                    resp.message("Please respond with a number 0 through %d." % len(orders))
             except ValueError:
                 counter -= 1
                 session['counter'] = counter
-                resp.message("Please respond with a number 0 through %d" % len(orders))
+                resp.message("Please respond with a number 0 through %d." % len(orders))
                 print("Could not convert response to integer.")
         elif session.get('customer') == 'new':
             order = datastore.Entity(client.key('Orders'))
