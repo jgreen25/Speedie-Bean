@@ -57,6 +57,7 @@ def conversation_processor():
         orders = list(query.fetch())
         if len(orders) > 5:
             min_time_stamp = datetime.datetime(int(orders[0]['year']), int(orders[0]['month']), int(orders[0]['day']), int(orders[0]['hour']), int(orders[0]['minute']))
+            minimum = 0
             for i in range(1, len(orders)):
                 time_stamp = datetime.datetime(int(orders[i]['year']), int(orders[i]['month']), int(orders[i]['day']), int(orders[i]['hour']), int(orders[i]['minute']))
                 if time_stamp < min_time_stamp:
@@ -487,7 +488,7 @@ def conversation_processor():
             to=cred.get_common_number()
         )
         print(message.sid)
-        resp.message("Thank you for your order! We'll bring your coffee at %s.You will be contacted by the delivery team for updates.\nhttps://www.youtube.com/watch?v=Wa2WOZuBhrI\n\nText COFFEE at any time to place another order." % updated_order['time'])
+        resp.message("Thank you for your order! We'll bring your coffee at %s. You will be contacted by the delivery team for updates.\nhttps://www.youtube.com/watch?v=Wa2WOZuBhrI\n\nText COFFEE at any time to place another order." % updated_order['time'])
         client.put(updated_order)
         placed = 'no'
         session['placed'] = placed
