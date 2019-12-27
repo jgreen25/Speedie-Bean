@@ -56,8 +56,17 @@ def conversation_processor():
         query.add_filter('number', '=', number)
         orders = list(query.fetch())
         if len(orders) > 5:
-            old_order = orders[0]
-            orders = orders[1:]
+            for i in range(len(orders)):
+                time_stamp = datetime.datetime(int(orders[i]['year']), int(orders[i]['month']), int(orders[i]['day']), int(orders[i]['hour']), int(orders[i]['minute']))
+                if i == 0:
+                    min_time_stamp = time_stamp
+                    minimum = 0
+                else:
+                    if time_stamp < min_time_stamp:
+                        min_time_stamp = time_stamp
+                        minimum = i
+            old_order = orders[i]
+            orders = orders[:i] + orders[(i + 1):]
             client.delete(old_order.key)
         if ((message_body.lower() == "coffee") or (
             message_body.lower() == "restart")) and (len(orders) != 0):
@@ -211,7 +220,14 @@ def conversation_processor():
             query.add_filter('time', '=', 'new')
             new_order = list(query.fetch())
             updated_order = new_order[0]
-            updated_order.update({'time': message_body})
+            utc_now = datetime.datetime.now(datetime.timezone.utc)
+            current_hour = utc_now.hour - 6
+            if current_hour < 0:
+                current_hour += 24
+            now = datetime.datetime(utc_now.year, utc_now.month, utc_now.day, current_hour, utc_now.minute, utc_now.second, utc_now.microsecond)
+            updated_order.update({
+                'time': message_body, \
+                'time_ordered': str(now)})
             message = mess_client.messages.create(
                 body='number: %s, name: %s, address: %s, time: %s, half gallons: %d, quarts: %d' % (number, updated_order['name'], \
                     updated_order['address'], updated_order['time'], \
@@ -285,7 +301,18 @@ def conversation_processor():
             query.add_filter('address', '=', '1000223')
             new_order = list(query.fetch())
             updated_order = new_order[0]
-            updated_order.update({'address': message_body})
+            utc_now = datetime.datetime.now(datetime.timezone.utc)
+            current_hour = utc_now.hour - 6
+            if current_hour < 0:
+                current_hour += 24
+            now = datetime.datetime(utc_now.year, utc_now.month, utc_now.day, current_hour, utc_now.minute, utc_now.second, utc_now.microsecond)
+            updated_order.update({
+                'address': message_body, \
+                'year': now.year, \
+                'month': now.month, \
+                'day': now.day, \
+                'hour': now.hour, \
+                'minute': now.minute})
             placed_order = datastore.Entity(client.key('Placed'))
             placed_order.update({
                 'number': number, \
@@ -357,7 +384,14 @@ def conversation_processor():
             query.add_filter('time', '=', 'new')
             new_order = list(query.fetch())
             updated_order = new_order[0]
-            updated_order.update({'time': message_body})
+            utc_now = datetime.datetime.now(datetime.timezone.utc)
+            current_hour = utc_now.hour - 6
+            if current_hour < 0:
+                current_hour += 24
+            now = datetime.datetime(utc_now.year, utc_now.month, utc_now.day, current_hour, utc_now.minute, utc_now.second, utc_now.microsecond)
+            updated_order.update({
+                'time': message_body, \
+                'time_ordered': str(now)})
             message = mess_client.messages.create(
                 body='number: %s, name: %s, address: %s, time: %s, half gallons: %d, quarts: %d' % (number, updated_order['name'], \
                     updated_order['address'], updated_order['time'], \
@@ -380,7 +414,18 @@ def conversation_processor():
             query.add_filter('address', '=', '1000223')
             new_order = list(query.fetch())
             updated_order = new_order[0]
-            updated_order.update({'address': message_body})
+            utc_now = datetime.datetime.now(datetime.timezone.utc)
+            current_hour = utc_now.hour - 6
+            if current_hour < 0:
+                current_hour += 24
+            now = datetime.datetime(utc_now.year, utc_now.month, utc_now.day, current_hour, utc_now.minute, utc_now.second, utc_now.microsecond)
+            updated_order.update({
+                'address': message_body, \
+                'year': now.year, \
+                'month': now.month, \
+                'day': now.day, \
+                'hour': now.hour, \
+                'minute': now.minute})
             placed_order = datastore.Entity(client.key('Placed'))
             placed_order.update({
                 'number': number, \
@@ -429,7 +474,14 @@ def conversation_processor():
         query.add_filter('time', '=', 'new')
         new_order = list(query.fetch())
         updated_order = new_order[0]
-        updated_order.update({'time': message_body})
+        utc_now = datetime.datetime.now(datetime.timezone.utc)
+        current_hour = utc_now.hour - 6
+        if current_hour < 0:
+            current_hour += 24
+        now = datetime.datetime(utc_now.year, utc_now.month, utc_now.day, current_hour, utc_now.minute, utc_now.second, utc_now.microsecond)
+        updated_order.update({
+            'time': message_body, \
+            'time_ordered': str(now)})
         message = mess_client.messages.create(
             body='number: %s, name: %s, address: %s, time: %s, half gallons: %d, quarts: %d' % (number, updated_order['name'], \
                 updated_order['address'], updated_order['time'], \
