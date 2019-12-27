@@ -64,7 +64,7 @@ def conversation_processor():
                     min_time_stamp = time_stamp
                     minimum = i
             old_order = orders[minimum]
-            orders = orders[:i] + orders[(i + 1):]
+            orders = orders[:minimum] + orders[(minimum + 1):]
             client.delete(old_order.key)
         if ((message_body.lower() == "coffee") or (
             message_body.lower() == "restart")) and (len(orders) != 0):
