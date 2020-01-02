@@ -56,10 +56,12 @@ def conversation_processor():
         query.add_filter('number', '=', number)
         orders = list(query.fetch())
         if len(orders) > 5:
-            min_time_stamp = datetime.datetime(int(orders[0]['year']), int(orders[0]['month']), int(orders[0]['day']), int(orders[0]['hour']), int(orders[0]['minute']))
+            min_time_stamp = datetime.datetime(int(orders[0]['year']), int(orders[0]['month']), \
+                int(orders[0]['day']), int(orders[0]['hour']), int(orders[0]['minute']))
             minimum = 0
             for i in range(1, len(orders)):
-                time_stamp = datetime.datetime(int(orders[i]['year']), int(orders[i]['month']), int(orders[i]['day']), int(orders[i]['hour']), int(orders[i]['minute']))
+                time_stamp = datetime.datetime(int(orders[i]['year']), int(orders[i]['month']), \
+                    int(orders[i]['day']), int(orders[i]['hour']), int(orders[i]['minute']))
                 if time_stamp < min_time_stamp:
                     min_time_stamp = time_stamp
                     minimum = i
@@ -71,7 +73,8 @@ def conversation_processor():
             order_list = "0)\nNew order\n\n"
             for i in range(len(orders)):
                 current = orders[i]
-                order_i = "%d)\nname: %s\nAddress: %s\nLarges: %s\nSmalls: %s\n\n" % (i + 1, current['name'], current['address'], current['half_gallons'], current['quarts'])
+                order_i = "%d)\nname: %s\nAddress: %s\nLarges: %s\nSmalls: %s\n\n" % (i + 1, current['name'], \
+                    current['address'], current['half_gallons'], current['quarts'])
                 order_list += order_i
             resp.message("Welcome back to Speedie Bean!" \
                 + " Choose an existing order below by responding with its order number or " \
@@ -222,7 +225,8 @@ def conversation_processor():
             current_hour = utc_now.hour - 6
             if current_hour < 0:
                 current_hour += 24
-            now = datetime.datetime(utc_now.year, utc_now.month, utc_now.day, current_hour, utc_now.minute, utc_now.second, utc_now.microsecond)
+            now = datetime.datetime(utc_now.year, utc_now.month, utc_now.day, current_hour, \
+                utc_now.minute, utc_now.second, utc_now.microsecond)
             updated_order.update({
                 'time': message_body, \
                 'time_ordered': str(now)})
@@ -234,7 +238,13 @@ def conversation_processor():
                 to=cred.get_common_number()
             )
             print(message.sid)
-            resp.message("Thank you for your order! We'll bring your coffee at %s. You will be contacted by the delivery team for updates.\n\nText COFFEE at any time to place another order.\n\nThank you for being a beta tester for our ordering software. If you feel like you have exhausted the capabilites of the software and have tested it thoroughly, we would really appreciate it if you would out the survey below to let us know how it worked for you. Thanks again!\nhttps://tulane.co1.qualtrics.com/jfe/form/SV_1Y3KPGKY2UYo3ul" % updated_order['time'])
+            resp.message("Thank you for your order! We'll bring your coffee at %s. " \
+                + "You will be contacted by the delivery team for updates.\n\nText COFFEE " 
+                + "at any time to place another order.\n\nThank you for being a beta tester " \
+                + "for our ordering software. If you feel like you have exhausted the capabilites " \
+                + "of the software and have tested it thoroughly, we would really appreciate " \
+                + "it if you would out the survey below to let us know how it worked for you. " \
+                + "Thanks again!\nhttps://tulane.co1.qualtrics.com/jfe/form/SV_1Y3KPGKY2UYo3ul" % updated_order['time'])
             client.put(updated_order)
             placed = 'no'
             session['placed'] = placed
@@ -303,7 +313,8 @@ def conversation_processor():
             current_hour = utc_now.hour - 6
             if current_hour < 0:
                 current_hour += 24
-            now = datetime.datetime(utc_now.year, utc_now.month, utc_now.day, current_hour, utc_now.minute, utc_now.second, utc_now.microsecond)
+            now = datetime.datetime(utc_now.year, utc_now.month, utc_now.day, current_hour, utc_now.minute, \
+                utc_now.second, utc_now.microsecond)
             updated_order.update({
                 'address': message_body, \
                 'year': now.year, \
@@ -386,7 +397,8 @@ def conversation_processor():
             current_hour = utc_now.hour - 6
             if current_hour < 0:
                 current_hour += 24
-            now = datetime.datetime(utc_now.year, utc_now.month, utc_now.day, current_hour, utc_now.minute, utc_now.second, utc_now.microsecond)
+            now = datetime.datetime(utc_now.year, utc_now.month, utc_now.day, current_hour, utc_now.minute, \
+                utc_now.second, utc_now.microsecond)
             updated_order.update({
                 'time': message_body, \
                 'time_ordered': str(now)})
@@ -398,7 +410,13 @@ def conversation_processor():
                 to=cred.get_common_number()
             )
             print(message.sid)
-            resp.message("Thank you for your order! We'll bring your coffee at %s. You will be contacted by the delivery team for updates.\n\nText COFFEE at any time to place another order.\n\nThank you for being a beta tester for our ordering software. If you feel like you have exhausted the capabilites of the software and have tested it thoroughly, we would really appreciate it if you would out the survey below to let us know how it worked for you. Thanks again!\nhttps://tulane.co1.qualtrics.com/jfe/form/SV_1Y3KPGKY2UYo3ul" % updated_order['time'])
+            resp.message("Thank you for your order! We'll bring your coffee at %s. You will be " \
+                + "contacted by the delivery team for updates.\n\nText COFFEE at any time to " \
+                + "place another order.\n\nThank you for being a beta tester for our ordering " \
+                + "software. If you feel like you have exhausted the capabilites of the software " \
+                + "and have tested it thoroughly, we would really appreciate it if you would out " \
+                + "the survey below to let us know how it worked for you. " \
+                + "Thanks again!\nhttps://tulane.co1.qualtrics.com/jfe/form/SV_1Y3KPGKY2UYo3ul" % updated_order['time'])
             client.put(updated_order)
             placed = 'no'
             session['placed'] = placed
@@ -416,7 +434,8 @@ def conversation_processor():
             current_hour = utc_now.hour - 6
             if current_hour < 0:
                 current_hour += 24
-            now = datetime.datetime(utc_now.year, utc_now.month, utc_now.day, current_hour, utc_now.minute, utc_now.second, utc_now.microsecond)
+            now = datetime.datetime(utc_now.year, utc_now.month, utc_now.day, current_hour, utc_now.minute, \
+                utc_now.second, utc_now.microsecond)
             updated_order.update({
                 'address': message_body, \
                 'year': now.year, \
@@ -476,7 +495,8 @@ def conversation_processor():
         current_hour = utc_now.hour - 6
         if current_hour < 0:
             current_hour += 24
-        now = datetime.datetime(utc_now.year, utc_now.month, utc_now.day, current_hour, utc_now.minute, utc_now.second, utc_now.microsecond)
+        now = datetime.datetime(utc_now.year, utc_now.month, utc_now.day, current_hour, \
+            utc_now.minute, utc_now.second, utc_now.microsecond)
         updated_order.update({
             'time': message_body, \
             'time_ordered': str(now)})
@@ -488,7 +508,13 @@ def conversation_processor():
             to=cred.get_common_number()
         )
         print(message.sid)
-        resp.message("Thank you for your order! We'll bring your coffee at %s. You will be contacted by the delivery team for updates.\n\nText COFFEE at any time to place another order.\n\nThank you for being a beta tester for our ordering software. If you feel like you have exhausted the capabilites of the software and have tested it thoroughly, we would really appreciate it if you would out the survey below to let us know how it worked for you. Thanks again!\nhttps://tulane.co1.qualtrics.com/jfe/form/SV_1Y3KPGKY2UYo3ul" % updated_order['time'])
+        resp.message("Thank you for your order! We'll bring your coffee at %s. You will be " \
+            + "contacted by the delivery team for updates.\n\nText COFFEE at any time to " \
+            + "place another order.\n\nThank you for being a beta tester for our ordering " \
+            + "software. If you feel like you have exhausted the capabilites of the software " \
+            + "and have tested it thoroughly, we would really appreciate it if you would out " \
+            + "the survey below to let us know how it worked for you. " \
+            + "Thanks again!\nhttps://tulane.co1.qualtrics.com/jfe/form/SV_1Y3KPGKY2UYo3ul" % updated_order['time'])
         client.put(updated_order)
         placed = 'no'
         session['placed'] = placed
@@ -549,7 +575,8 @@ def valid_time(time, client, mess_client):
     current_hour = utc_now.hour - 6
     if current_hour < 0:
         current_hour += 24
-    now = datetime.datetime(utc_now.year, utc_now.month, utc_now.day, current_hour, utc_now.minute, utc_now.second, utc_now.microsecond)
+    now = datetime.datetime(utc_now.year, utc_now.month, utc_now.day, current_hour, \
+        utc_now.minute, utc_now.second, utc_now.microsecond)
     delivery_time = datetime.datetime(now.year, now.month, now.day, time.hour, time.minute)
     if delivery_time < now:
         return False
@@ -646,11 +673,25 @@ def cancel_order(number):
 def list_times(order, times):
     resp = MessagingResponse()
     if len(times) == 3:
-        string = "We will bring you %s Large coffee(s) and %s Small coffee(s) to %s. When should we bring it to you?\n\nAvailable time slots:\n9:00am-12:00pm\n2:00pm-5:00pm\n7:00pm-9:00pm\n\nPlease respond with ASAP to have the coffee delivered as soon as possible or enter a time within the available slots listed in the format shown in the following example:\n10:00am" % (order['half_gallons'], order['quarts'], order['address'])
+        string = "We will bring you %s Large coffee(s) and %s Small coffee(s) to %s. " \
+        + "When should we bring it to you?\n\nAvailable time slots:\n9:00am-12:00pm\n" \
+        + "2:00pm-5:00pm\n7:00pm-9:00pm\n\nPlease respond with ASAP to have the coffee " \
+        + "delivered as soon as possible or enter a time within the available slots " \
+        + "listed in the format shown in the following example:" \
+        + "\n10:00am" % (order['half_gallons'], order['quarts'], order['address'])
     elif len(times) == 2:
-        string = "We will bring you %s Large coffee(s) and %s Small coffee(s) to %s. When should we bring it to you?\n\nAvailable time slots:\n%s\n%s\n\nPlease respond with ASAP to have the coffee delivered as soon as possible or enter a time within the available slots listed in the format shown in the following example:\n10:00am" % (order['half_gallons'], order['quarts'], order['address'], times[0]['time'], times[1]['time'])
+        string = "We will bring you %s Large coffee(s) and %s Small coffee(s) to %s. " \
+        + "When should we bring it to you?\n\nAvailable time slots:\n%s\n%s\n\nPlease " \
+        + "respond with ASAP to have the coffee delivered as soon as possible or enter " \
+        + "a time within the available slots listed in the format shown in the " \
+        + "following example:" \
+        + "\n10:00am" % (order['half_gallons'], order['quarts'], order['address'], times[0]['time'], times[1]['time'])
     elif len(times) == 1:
-        string = "We will bring you %s Large coffee(s) and %s Small coffee(s) to %s. When should we bring it to you?\n\nAvailable time slots:\n%s\n\nPlease respond with ASAP to have the coffee delivered as soon as possible or enter a time within the available slots listed in the format shown in the following example:\n10:00am" % (order['half_gallons'], order['quarts'], order['address'], times[0]['time'])
+        string = "We will bring you %s Large coffee(s) and %s Small coffee(s) to %s. When " \
+        + "should we bring it to you?\n\nAvailable time slots:\n%s\n\nPlease respond " \
+        + "with ASAP to have the coffee delivered as soon as possible or enter a time " \
+        + "within the available slots listed in the format shown in the following " \
+        + "example:\n10:00am" % (order['half_gallons'], order['quarts'], order['address'], times[0]['time'])
     elif len(times) == 0:
         string = "We're sorry, there are no available delivery time slots, please try again later."
         query = client.query(kind='Placed')
@@ -672,7 +713,8 @@ def asap():
     current_hour = utc_now.hour - 6
     if current_hour < 0:
         current_hour += 24
-    now = datetime.datetime(utc_now.year, utc_now.month, utc_now.day, current_hour, utc_now.minute, utc_now.second, utc_now.microsecond)
+    now = datetime.datetime(utc_now.year, utc_now.month, utc_now.day, current_hour, \
+        utc_now.minute, utc_now.second, utc_now.microsecond)
     first = datetime.datetime(now.year, now.month, now.day, 12, 0)
     second = datetime.datetime(now.year, now.month, now.day, 17, 0)
     third = datetime.datetime(now.year, now.month, now.day, 21, 0)
@@ -685,7 +727,13 @@ def asap():
             previous_slots = int(time_slot['slots'])
             time_slot.update({'slots': previous_slots - 1})
             client.put(time_slot)
-            string = "Thank you for your order! We'll bring your coffee as soon as possible. You will be contacted by the delivery team for updates.\nhttps://tulane.co1.qualtrics.com/jfe/form/SV_1Y3KPGKY2UYo3ul\n\nText COFFEE at any time to place another order."
+            string = "Thank you for your order! We'll bring your coffee as soon as possible. " \
+            + "You will be contacted by the delivery team for updates.\n\nText COFFEE at any " \
+            + "time to place another order.\n\nThank you for being a beta tester for our ordering " \
+            + "software. If you feel like you have exhausted the capabilites of the software and " \
+            + "have tested it thoroughly, we would really appreciate it if you would out the " \
+            + "survey below to let us know how it worked for you. Thanks again!" \
+            + "\nhttps://tulane.co1.qualtrics.com/jfe/form/SV_1Y3KPGKY2UYo3ul"
             placed = 'no'
             session['placed'] = placed
             customer = 'new'
@@ -701,7 +749,13 @@ def asap():
             previous_slots = int(time_slot['slots'])
             time_slot.update({'slots': previous_slots - 1})
             client.put(time_slot)
-            string = "Thank you for your order! We'll bring your coffee as soon as possible. You will be contacted by the delivery team for updates.\n\nText COFFEE at any time to place another order.\n\nThank you for being a beta tester for our ordering software. If you feel like you have exhausted the capabilites of the software and have tested it thoroughly, we would really appreciate it if you would out the survey below to let us know how it worked for you. Thanks again!\nhttps://tulane.co1.qualtrics.com/jfe/form/SV_1Y3KPGKY2UYo3ul"
+            string = "Thank you for your order! We'll bring your coffee as soon as possible. " \
+            + "You will be contacted by the delivery team for updates.\n\nText COFFEE at any " \
+            + "time to place another order.\n\nThank you for being a beta tester for our ordering " \
+            + "software. If you feel like you have exhausted the capabilites of the software and " \
+            + "have tested it thoroughly, we would really appreciate it if you would out the " \
+            + "survey below to let us know how it worked for you. Thanks again!" \
+            + "\nhttps://tulane.co1.qualtrics.com/jfe/form/SV_1Y3KPGKY2UYo3ul"
             placed = 'no'
             session['placed'] = placed
             customer = 'new'
@@ -717,7 +771,13 @@ def asap():
             previous_slots = int(time_slot['slots'])
             time_slot.update({'slots': previous_slots - 1})
             client.put(time_slot)
-            string = "Thank you for your order! We'll bring your coffee as soon as possible. You will be contacted by the delivery team for updates.\n\nText COFFEE at any time to place another order.\n\nThank you for being a beta tester for our ordering software. If you feel like you have exhausted the capabilites of the software and have tested it thoroughly, we would really appreciate it if you would out the survey below to let us know how it worked for you. Thanks again!\nhttps://tulane.co1.qualtrics.com/jfe/form/SV_1Y3KPGKY2UYo3ul"
+            string = "Thank you for your order! We'll bring your coffee as soon as possible. " \
+            + "You will be contacted by the delivery team for updates.\n\nText COFFEE at any " \
+            + "time to place another order.\n\nThank you for being a beta tester for our ordering " \
+            + "software. If you feel like you have exhausted the capabilites of the software and " \
+            + "have tested it thoroughly, we would really appreciate it if you would out the " \
+            + "survey below to let us know how it worked for you. Thanks again!" \
+            + "\nhttps://tulane.co1.qualtrics.com/jfe/form/SV_1Y3KPGKY2UYo3ul"
             placed = 'no'
             session['placed'] = placed
             customer = 'new'
