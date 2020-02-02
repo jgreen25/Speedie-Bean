@@ -238,13 +238,13 @@ def conversation_processor():
                 to=cred.get_common_number()
             )
             print(message.sid)
-            resp.message("Thank you for your order! We'll bring your coffee at %s. " \
+            resp.message("Thank you for your order! We'll bring your coffee at %s. " % str(updated_order['time'])\
                 + "You will be contacted by the delivery team for updates.\n\nText COFFEE " 
                 + "at any time to place another order.\n\nThank you for being a beta tester " \
                 + "for our ordering software. If you feel like you have exhausted the capabilites " \
                 + "of the software and have tested it thoroughly, we would really appreciate " \
                 + "it if you would out the survey below to let us know how it worked for you. " \
-                + "Thanks again!\nhttps://tulane.co1.qualtrics.com/jfe/form/SV_1Y3KPGKY2UYo3ul" % updated_order['time'])
+                + "Thanks again!\nhttps://tulane.co1.qualtrics.com/jfe/form/SV_1Y3KPGKY2UYo3ul")
             client.put(updated_order)
             placed = 'no'
             session['placed'] = placed
@@ -410,13 +410,13 @@ def conversation_processor():
                 to=cred.get_common_number()
             )
             print(message.sid)
-            resp.message("Thank you for your order! We'll bring your coffee at %s. You will be " \
+            resp.message("Thank you for your order! We'll bring your coffee at %s. You will be " % str(updated_order['time'])\
                 + "contacted by the delivery team for updates.\n\nText COFFEE at any time to " \
                 + "place another order.\n\nThank you for being a beta tester for our ordering " \
                 + "software. If you feel like you have exhausted the capabilites of the software " \
                 + "and have tested it thoroughly, we would really appreciate it if you would out " \
                 + "the survey below to let us know how it worked for you. " \
-                + "Thanks again!\nhttps://tulane.co1.qualtrics.com/jfe/form/SV_1Y3KPGKY2UYo3ul" % updated_order['time'])
+                + "Thanks again!\nhttps://tulane.co1.qualtrics.com/jfe/form/SV_1Y3KPGKY2UYo3ul")
             client.put(updated_order)
             placed = 'no'
             session['placed'] = placed
@@ -508,13 +508,13 @@ def conversation_processor():
             to=cred.get_common_number()
         )
         print(message.sid)
-        resp.message("Thank you for your order! We'll bring your coffee at %s. You will be " \
+        resp.message("Thank you for your order! We'll bring your coffee at %s. You will be " % str(updated_order['time']) \
             + "contacted by the delivery team for updates.\n\nText COFFEE at any time to " \
             + "place another order.\n\nThank you for being a beta tester for our ordering " \
             + "software. If you feel like you have exhausted the capabilites of the software " \
             + "and have tested it thoroughly, we would really appreciate it if you would out " \
             + "the survey below to let us know how it worked for you. " \
-            + "Thanks again!\nhttps://tulane.co1.qualtrics.com/jfe/form/SV_1Y3KPGKY2UYo3ul" % updated_order['time'])
+            + "Thanks again!\nhttps://tulane.co1.qualtrics.com/jfe/form/SV_1Y3KPGKY2UYo3ul")
         client.put(updated_order)
         placed = 'no'
         session['placed'] = placed
@@ -671,27 +671,14 @@ def cancel_order(number):
     return str(resp)
 
 def list_times(order, times):
+    client = datastore.Client('speedie-bean-twilio')
     resp = MessagingResponse()
     if len(times) == 3:
-        string = "We will bring you %s Large coffee(s) and %s Small coffee(s) to %s. " \
-        + "When should we bring it to you?\n\nAvailable time slots:\n9:00am-12:00pm\n" \
-        + "2:00pm-5:00pm\n7:00pm-9:00pm\n\nPlease respond with ASAP to have the coffee " \
-        + "delivered as soon as possible or enter a time within the available slots " \
-        + "listed in the format shown in the following example:" \
-        + "\n10:00am" % (order['half_gallons'], order['quarts'], order['address'])
+        string = "We will bring you %s Large coffee(s) and %s Small coffee(s) to %s. When should we bring it to you?\n\nAvailable time slots:\n9:00am-12:00pm\n2:00pm-5:00pm\n7:00pm-9:00pm\n\nPlease respond with ASAP to have the coffee delivered as soon as possible or enter a time within the available slots listed in the format shown in the following example:\n10:00am" % (str(order['half_gallons']), str(order['quarts']), str(order['address']))
     elif len(times) == 2:
-        string = "We will bring you %s Large coffee(s) and %s Small coffee(s) to %s. " \
-        + "When should we bring it to you?\n\nAvailable time slots:\n%s\n%s\n\nPlease " \
-        + "respond with ASAP to have the coffee delivered as soon as possible or enter " \
-        + "a time within the available slots listed in the format shown in the " \
-        + "following example:" \
-        + "\n10:00am" % (order['half_gallons'], order['quarts'], order['address'], times[0]['time'], times[1]['time'])
+        string = "We will bring you %s Large coffee(s) and %s Small coffee(s) to %s. When should we bring it to you?\n\nAvailable time slots:\n%s\n%s\n\nPlease respond with ASAP to have the coffee delivered as soon as possible or enter a time within the available slots listed in the format shown in the following example:\n10:00am" % (str(order['half_gallons']), str(order['quarts']),str(order['address']), str(times[0]['time']), str(times[1]['time']))
     elif len(times) == 1:
-        string = "We will bring you %s Large coffee(s) and %s Small coffee(s) to %s. When " \
-        + "should we bring it to you?\n\nAvailable time slots:\n%s\n\nPlease respond " \
-        + "with ASAP to have the coffee delivered as soon as possible or enter a time " \
-        + "within the available slots listed in the format shown in the following " \
-        + "example:\n10:00am" % (order['half_gallons'], order['quarts'], order['address'], times[0]['time'])
+        string = "We will bring you %s Large coffee(s) and %s Small coffee(s) to %s. When should we bring it to you?\n\nAvailable time slots:\n%s\n\nPlease respond with ASAP to have the coffee delivered as soon as possible or enter a time within the available slots listed in the format shown in the following example:\n10:00am" % (str(order['half_gallons']), str(order['quarts']), str(order['address']), str(times[0]['time']))
     elif len(times) == 0:
         string = "We're sorry, there are no available delivery time slots, please try again later."
         query = client.query(kind='Placed')
@@ -709,6 +696,7 @@ def list_times(order, times):
     return string
 
 def asap():
+    client = datastore.Client('speedie-bean-twilio')
     utc_now = datetime.datetime.now(datetime.timezone.utc)
     current_hour = utc_now.hour - 6
     if current_hour < 0:
