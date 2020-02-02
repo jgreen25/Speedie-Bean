@@ -76,7 +76,7 @@ def conversation_processor():
                 order_i = "%d)\nname: %s\nAddress: %s\nLarges: %s\nSmalls: %s\n\n" % (i + 1, current['name'], \
                     current['address'], current['half_gallons'], current['quarts'])
                 order_list += order_i
-            resp.message("Welcome back to Speedie Bean!" \
+            resp.message("(BETA VERSION for testing purposes only. No coffee will be delivered.) Welcome back to Speedie Bean!" \
                 + " Choose an existing order below by responding with its order number or " \
                 + "respond with 0 to create a new order.\n\n" \
                 + order_list + "\n(Type \"Restart\" anytime to restart your order or type \"Cancel order\" to cancel your order.)")
@@ -84,7 +84,7 @@ def conversation_processor():
             session['customer'] = customer
         elif ((message_body.lower() == "coffee") or (
             message_body.lower() == "restart")) and (len(orders) == 0):
-            resp.message("Welcome to Speedie Bean!" \
+            resp.message("(BETA VERSION for testing purposes only. No coffee will be delivered.)Welcome to Speedie Bean!" \
                 + " We deliver cold brew coffee to Tulane's campus and the surrounding area." \
                 + " Please respond with your name to start an order.\n\n"
                 + "(Type \"Restart\" anytime to restart your order or type \"Cancel order\" to cancel your order.)")
