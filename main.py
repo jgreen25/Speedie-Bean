@@ -602,7 +602,7 @@ def reload():
     time_slots = list(query.fetch())
     for i in range(len(time_slots)):
         time_slot = time_slots[i]
-        time_slot.update({'slots': 10})
+        time_slot.update({'slots': 10000})
         client.put(time_slot)
     counter = session.get('counter', 0)
     counter -= 1
