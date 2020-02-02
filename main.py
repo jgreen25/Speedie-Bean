@@ -123,7 +123,7 @@ def conversation_processor():
                     query = client.query(kind='Time')
                     query.add_filter('slots', '>', 0)
                     times = list(query.fetch())
-                    resp.message(list_times(chosen, times))
+                    resp.message(list_times(chosen, times, number))
                     if len(times) == 0:
                         return str(resp)
                     placed = 'yes'
@@ -196,7 +196,7 @@ def conversation_processor():
             session['placed'] = placed
         elif session.get('placed') == 'yes':
             if message_body.lower() == "asap":
-                resp.message(asap())
+                resp.message(asap(mess_client, client, number))
                 return str(resp)
             converted_time = time_format(message_body)
             time_valid = valid_time(converted_time, client, mess_client)
@@ -334,7 +334,7 @@ def conversation_processor():
             query = client.query(kind='Time')
             query.add_filter('slots', '>', 0)
             times = list(query.fetch())
-            resp.message(list_times(updated_order, times))
+            resp.message(list_times(updated_order, times, number))
             if len(times) == 0:
                 return str(resp)
             client.put(updated_order)
@@ -368,7 +368,7 @@ def conversation_processor():
     elif session.get('counter', 0) == 6:
         if session.get('placed') == 'yes' and session.get('customer') == 'new':
             if message_body.lower() == "asap":
-                resp.message(asap())
+                resp.message(asap(mess_client, client, number))
                 return str(resp)
             converted_time = time_format(message_body)
             time_valid = valid_time(converted_time, client, mess_client)
@@ -455,7 +455,7 @@ def conversation_processor():
             query = client.query(kind='Time')
             query.add_filter('slots', '>', 0)
             times = list(query.fetch())
-            resp.message(list_times(updated_order, times))
+            resp.message(list_times(updated_order, times, number))
             if len(times) == 0:
                 return str(resp)
             client.put(updated_order)
@@ -466,7 +466,7 @@ def conversation_processor():
 
     elif session.get('counter', 0) == 7:
         if message_body.lower() == "asap":
-            resp.message(asap())
+            resp.message(asap(mess_client, client, number))
             return str(resp)
         converted_time = time_format(message_body)
         time_valid = valid_time(converted_time, client, mess_client)
@@ -670,7 +670,7 @@ def cancel_order(number):
     resp.message("Order cancelled.")
     return str(resp)
 
-def list_times(order, times):
+def list_times(order, times, number):
     client = datastore.Client('speedie-bean-twilio')
     resp = MessagingResponse()
     if len(times) == 3:
@@ -695,8 +695,7 @@ def list_times(order, times):
         session['placed'] = placed
     return string
 
-def asap():
-    client = datastore.Client('speedie-bean-twilio')
+def asap(mess_client, client, number):
     utc_now = datetime.datetime.now(datetime.timezone.utc)
     current_hour = utc_now.hour - 6
     if current_hour < 0:
@@ -728,6 +727,22 @@ def asap():
             session['customer'] = customer
             counter = 0
             session['counter'] = counter
+            query = client.query(kind='Placed')
+            query.add_filter('number', '=', number)
+            query.add_filter('time', '=', 'new')
+            new_order = list(query.fetch())
+            updated_order = new_order[0]
+            updated_order.update({
+                'time': "ASAP", \
+                'time_ordered': str(now)})
+            message = mess_client.messages.create(
+                body='number: %s, name: %s, address: %s, time: %s, half gallons: %d, quarts: %d' % (number, updated_order['name'], \
+                    updated_order['address'], updated_order['time'], \
+                    int(updated_order['half_gallons']), int(updated_order['quarts'])),
+                from_=cred.get_speedie_number(),
+                to=cred.get_common_number()
+            )
+            client.put(updated_order)
     elif now <= second:
         query = client.query(kind='Time')
         query.add_filter('time', '=', '2:00pm-5:00pm')
@@ -750,6 +765,22 @@ def asap():
             session['customer'] = customer
             counter = 0
             session['counter'] = counter
+            query = client.query(kind='Placed')
+            query.add_filter('number', '=', number)
+            query.add_filter('time', '=', 'new')
+            new_order = list(query.fetch())
+            updated_order = new_order[0]
+            updated_order.update({
+                'time': "ASAP", \
+                'time_ordered': str(now)})
+            message = mess_client.messages.create(
+                body='number: %s, name: %s, address: %s, time: %s, half gallons: %d, quarts: %d' % (number, updated_order['name'], \
+                    updated_order['address'], updated_order['time'], \
+                    int(updated_order['half_gallons']), int(updated_order['quarts'])),
+                from_=cred.get_speedie_number(),
+                to=cred.get_common_number()
+            )
+            client.put(updated_order)
     elif now <= third:
         query = client.query(kind='Time')
         query.add_filter('time', '=', '7:00pm-9:00pm')
@@ -772,6 +803,22 @@ def asap():
             session['customer'] = customer
             counter = 0
             session['counter'] = counter
+            query = client.query(kind='Placed')
+            query.add_filter('number', '=', number)
+            query.add_filter('time', '=', 'new')
+            new_order = list(query.fetch())
+            updated_order = new_order[0]
+            updated_order.update({
+                'time': "ASAP", \
+                'time_ordered': str(now)})
+            message = mess_client.messages.create(
+                body='number: %s, name: %s, address: %s, time: %s, half gallons: %d, quarts: %d' % (number, updated_order['name'], \
+                    updated_order['address'], updated_order['time'], \
+                    int(updated_order['half_gallons']), int(updated_order['quarts'])),
+                from_=cred.get_speedie_number(),
+                to=cred.get_common_number()
+            )
+            client.put(updated_order)
     else:
         string = "We're sorry, there are no available delivery time slots, please try again later."
         query = client.query(kind='Placed')
